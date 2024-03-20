@@ -7,20 +7,22 @@ from chromadb.config import Settings
 from langchain.document_loaders import CSVLoader, PDFMinerLoader, TextLoader, UnstructuredExcelLoader, Docx2txtLoader
 from langchain.document_loaders import UnstructuredFileLoader, UnstructuredMarkdownLoader
 from langchain.document_loaders import UnstructuredHTMLLoader
-
+from langchain.document_loaders import UnstructuredPDFLoader
 
 # load_dotenv()
 ROOT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 
-# Define the folder for storing database
-SOURCE_DIRECTORY = f"{ROOT_DIRECTORY}/SOURCE_DOCUMENTS"
+# Define the folder for storing source documents
+SOURCE_DIRECTORY = os.path.join(ROOT_DIRECTORY, "SOURCE_DOCUMENTS")
 
-PERSIST_DIRECTORY = f"{ROOT_DIRECTORY}/DB"
+# Define the folder for storing the database
+PERSIST_DIRECTORY = os.path.join(ROOT_DIRECTORY, "DB")
 
-MODELS_PATH = "./models"
+# Define the path for models
+MODELS_PATH = os.path.join(".", "models")
 
 # Can be changed to a specific number
-INGEST_THREADS = os.cpu_count() or 8
+INGEST_THREADS = 1
 
 # Define the Chroma settings
 CHROMA_SETTINGS = Settings(
@@ -48,8 +50,9 @@ DOCUMENT_MAP = {
     ".txt": TextLoader,
     ".md": UnstructuredMarkdownLoader,
     ".py": TextLoader,
-    # ".pdf": PDFMinerLoader,
-    ".pdf": UnstructuredFileLoader,
+    ".pdf": PDFMinerLoader,
+    # ".pdf": UnstructuredFileLoader,
+    # ".pdf": UnstructuredPDFLoader,
     ".csv": CSVLoader,
     ".xls": UnstructuredExcelLoader,
     ".xlsx": UnstructuredExcelLoader,
@@ -58,7 +61,7 @@ DOCUMENT_MAP = {
 }
 
 # Default Instructor Model
-EMBEDDING_MODEL_NAME = "hkunlp/instructor-large"  # Uses 1.5 GB of VRAM (High Accuracy with lower VRAM usage)
+# EMBEDDING_MODEL_NAME = "hkunlp/instructor-large"  # Uses 1.5 GB of VRAM (High Accuracy with lower VRAM usage)
 
 ####
 #### OTHER EMBEDDING MODEL OPTIONS
@@ -74,7 +77,7 @@ EMBEDDING_MODEL_NAME = "hkunlp/instructor-large"  # Uses 1.5 GB of VRAM (High Ac
 ####
 
 # EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-large" # Uses 2.5 GB of VRAM
-# EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-base" # Uses 1.2 GB of VRAM
+EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-base" # Uses 1.2 GB of VRAM
 
 
 #### SELECT AN OPEN SOURCE LLM (LARGE LANGUAGE MODEL)
@@ -100,8 +103,8 @@ EMBEDDING_MODEL_NAME = "hkunlp/instructor-large"  # Uses 1.5 GB of VRAM (High Ac
 # MODEL_ID = "TheBloke/Llama-2-13b-Chat-GGUF"
 # MODEL_BASENAME = "llama-2-13b-chat.Q4_K_M.gguf"
 
-MODEL_ID = "TheBloke/Llama-2-7b-Chat-GGUF"
-MODEL_BASENAME = "llama-2-7b-chat.Q4_K_M.gguf"
+# MODEL_ID = "TheBloke/Llama-2-7b-Chat-GGUF"
+# MODEL_BASENAME = "llama-2-7b-chat.Q4_K_M.gguf"
 
 # MODEL_ID = "TheBloke/Mistral-7B-Instruct-v0.1-GGUF"
 # MODEL_BASENAME = "mistral-7b-instruct-v0.1.Q8_0.gguf"
@@ -142,7 +145,8 @@ MODEL_BASENAME = "llama-2-7b-chat.Q4_K_M.gguf"
 ##### 24GB VRAM Graphics Cards (RTX 3090 - RTX 4090 (35% Faster) - RTX A5000 - RTX A5500) #####
 
 ### 13b GPTQ Models for 24GB GPUs (*** With best embedding model: hkunlp/instructor-xl ***)
-# MODEL_ID = "TheBloke/Wizard-Vicuna-13B-Uncensored-GPTQ"
+MODEL_ID = "TheBloke/Wizard-Vicuna-13B-Uncensored-GPTQ"
+MODEL_BASENAME = "model"
 # MODEL_BASENAME = "Wizard-Vicuna-13B-Uncensored-GPTQ-4bit-128g.compat.no-act-order.safetensors"
 # MODEL_ID = "TheBloke/vicuna-13B-v1.5-GPTQ"
 # MODEL_BASENAME = "model.safetensors"
